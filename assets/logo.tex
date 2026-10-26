@@ -1,0 +1,64 @@
+% latex-render logo. Build: see assets/build-logo.sh
+\documentclass[tikz,border=0pt]{standalone}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+
+\definecolor{spark}{HTML}{D97757}
+\definecolor{inklight}{HTML}{1F1E1D}
+\definecolor{inkdark}{HTML}{F0EEE6}
+\definecolor{mutedlight}{HTML}{87867F}
+\definecolor{muteddark}{HTML}{A3A199}
+\definecolor{tile}{HTML}{262624}
+
+% Spark: twelve tapered rays, uneven lengths so it reads hand-cut.
+% #1 = radius as a length (e.g. 0.21em), #2 = colour
+\newcommand\spark[2]{%
+  \foreach \a/\l in {4/1.00, 33/0.80, 61/0.95, 93/0.84, 122/1.00, 151/0.78,
+                     183/0.97, 211/0.83, 240/0.93, 271/0.79, 299/1.00, 331/0.86}{%
+    \fill[#2, rotate=\a]
+      (0,-0.04*#1) -- ({(\l-0.115)*#1},-0.115*#1)
+      arc[start angle=-90, end angle=90, radius=0.115*#1]
+      -- (0,0.04*#1) -- cycle;
+  }%
+}
+
+% \LaTeX's kerning, with the small raised A swapped for the spark.
+\newcommand\sparkglyph[1][.235em]{\raisebox{.205em}{\tikz[baseline=(b)]{%
+  \spark{#1}{spark}\coordinate (b) at (0,-#1);
+  \useasboundingbox (-#1,-#1) rectangle (#1,#1);}}}
+\newcommand\LsparkTeX{L\kern-.1em\sparkglyph\kern.05em T\kern-.1667em\lower.5ex\hbox{E}\kern-.125em X}
+
+% #1 ink, #2 muted
+\newcommand\wordmark[2]{%
+  \begin{tikzpicture}
+    \node[inner sep=0, text=#1, font=\fontsize{96}{96}\selectfont]
+      {\LsparkTeX\kern.06em{\color{#2}\fontsize{64}{64}\ttfamily-render}};
+  \end{tikzpicture}}
+
+% #1 tile fill, #2 ink. 10cm rounded tile, L + spark centred.
+\newcommand\logomark[2]{%
+  \begin{tikzpicture}
+    \fill[#1, rounded corners=2.2cm] (0,0) rectangle (10,10);
+    \node[inner sep=0, text=#2, font=\fontsize{230}{230}\selectfont] at (4.72,5.0)
+      {L\kern-.1em\sparkglyph[.29em]};
+  \end{tikzpicture}}
+
+% README header: tile and wordmark side by side. #1 ink, #2 muted.
+% Same drawing as \logomark, scaled so the tile stands a little taller than the word.
+\newcommand\header[2]{%
+  \begin{tikzpicture}
+    \def\s{.36}
+    \fill[tile, rounded corners=\s*2.2cm] (0,0) rectangle (\s*10,\s*10);
+    \node[inner sep=0, text=inkdark, font=\fontsize{82.8}{82.8}\selectfont] at (\s*4.72,\s*5.0)
+      {L\kern-.1em\sparkglyph[.29em]};
+    \node[inner sep=0, anchor=base west, text=#1, font=\fontsize{96}{96}\selectfont]
+      at (\s*10+1.1, \s*5-1.05) {\LsparkTeX\kern.06em{\color{#2}\fontsize{64}{64}\ttfamily-render}};
+  \end{tikzpicture}}
+
+\begin{document}
+\wordmark{inklight}{mutedlight}
+\wordmark{inkdark}{muteddark}
+\logomark{tile}{inkdark}
+\header{inklight}{mutedlight}
+\header{inkdark}{muteddark}
+\end{document}

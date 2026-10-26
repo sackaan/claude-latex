@@ -1,0 +1,6 @@
+{
+  "name": "claude-latex",
+  "owner": { "name": "sackaan" },
+  "description": "LaTeX math rendering for Claude Code's terminal.",
+  "plugins": [{ "name": "latex-render", "source": "./" }]
+}

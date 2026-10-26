@@ -1,0 +1,31 @@
+{
+  "name": "latex-render",
+  "version": "0.1.0",
+  "description": "Renders LaTeX math in Claude's replies: display math as real LaTeX images (kitty/Ghostty/iTerm2), inline math as Unicode.",
+  "author": {
+    "name": "sackaan"
+  },
+  "homepage": "https://github.com/sackaan/claude-latex",
+  "repository": "https://github.com/sackaan/claude-latex",
+  "license": "GPL-3.0-only",
+  "userConfig": {
+    "scale": {
+      "type": "number",
+      "title": "Math scale",
+      "description": "Size of rendered display math relative to the terminal font",
+      "default": 1
+    },
+    "color": {
+      "type": "string",
+      "title": "Math color",
+      "description": "Hex color for rendered math, e.g. #e6e6e6; empty follows the theme",
+      "default": ""
+    },
+    "python": {
+      "type": "string",
+      "title": "Python",
+      "description": "Python 3 executable that runs the renderer",
+      "default": "python3"
+    }
+  }
+}
